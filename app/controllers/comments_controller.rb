@@ -1,16 +1,17 @@
 class CommentsController < ApplicationController
   before_action :set_comment, only: [:show, :update, :destroy]
+  
 
   # GET /comments
   def index
     @comments = Comment.all
-
-    render json: @comments
+    render json: { status: 200, comments: @comments}
   end
 
   # GET /comments/1
   def show
-    render json: @comment
+    @fixed_date = date(@comment.created_at, @comment.updated_at)
+    render json: { status: 200, comment: @comment, fixed_date: @fixed_date}
   end
 
   # POST /comments
@@ -47,5 +48,12 @@ class CommentsController < ApplicationController
     # Only allow a trusted parameter "white list" through.
     def comment_params
       params.require(:comment).permit(:post_id, :user_id, :contentauthor)
+    end
+
+    def date(created_at, updated_at) 
+      {
+        created: Time.at(created_at).strftime("%B %e, %Y at %I:%M %p"),
+        edited: Time.at(updated_at).strftime("%B %e, %Y at %I:%M %p")
+      }
     end
 end
