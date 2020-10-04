@@ -5,13 +5,13 @@ class CommentsController < ApplicationController
   # GET /comments
   def index
     @comments = Comment.all
-    render json: { status: 200, comments: @comments}
+    render json:  @comments
   end
 
   # GET /comments/1
   def show
     @fixed_date = date(@comment.created_at, @comment.updated_at)
-    render json: { status: 200, comment: @comment, fixed_date: @fixed_date}
+    render json: { comment: @comment, fixed_date: @fixed_date}
   end
 
   # POST /comments
