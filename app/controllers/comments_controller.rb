@@ -14,6 +14,12 @@ class CommentsController < ApplicationController
     render json: { comment: @comment, fixed_date: @fixed_date}
   end
 
+  #Get coment by post id
+  def post_comments
+    @comment = Comment.where('post_id = ?', params[:post_id] )
+    render json: @comment
+  end
+
   # POST /comments
   def create
     @comment = Comment.new(comment_params)
